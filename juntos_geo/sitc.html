@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELECCIONAR EL IDHOGAR</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #idhogar-select {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #imagen-container {
+            margin-top: 20px;
+            display: none; /* Ocultar imagen inicialmente */
+        }
+
+        #imagen {
+            max-width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        #imagen:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Estilos para el enlace */
+        #open-modal {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #F50607;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #open-modal:hover {
+            background-color: #F50607;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selector de IDHOGAR</h1>
+    <select id="idhogar-select">
+        <option value="-">Seleccionar</option>
+        <option value="5473125">5473125</option>
+        <option value="5472343">5472343</option>
+    </select>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="modal-iframe" src="" style="width:100%;height:80vh;border:none;"></iframe>
+        </div>
+    </div>
+
+    <div id="imagen-container">
+      <a href="#" id="open-modal" onclick="abrirModal()">AGREGAR GEOREFERENCIA</a><br><br>
+      <a href="https://docs.google.com/spreadsheets/d/10ZHPeT_l5RBj2nFbkB5gnVmE-ireewr1AxfQgi8-0UQ/edit?usp=sharing" target="_blank">VER GEOREFERENCIA REGISTRADAS</a><br><br>
+      <img id="imagen" src="" alt="Imagen">
+  </div>
+
+    <script>
+        document.getElementById("idhogar-select").addEventListener("change", function() {
+            var idhogar = this.value;
+            var imagenURL = "";
+
+            if (idhogar === "-") {
+                // Ocultar imagen y enlace si la opción seleccionada es "-"
+                document.getElementById("imagen-container").style.display = "none";
+                return; // Salir del evento change
+            }
+
+            if (idhogar === "5473125") {
+                imagenURL = 'src/images/sitc.jpg';
+            } else if (idhogar === "5472343") {
+                imagenURL = 'src/images/sitc2.jpg';
+            }
+
+            document.getElementById("imagen").src = imagenURL;
+
+            // Mostrar imagen-container después de seleccionar una opción diferente de "-"
+            document.getElementById("imagen-container").style.display = "block";
+        });
+
+        // Modal
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("open-modal");
+        var span = document.getElementsByClassName("close")[0];
+
+        function abrirModal() {
+            var iframe = document.getElementById("modal-iframe");
+            var idhogarSeleccionado = document.getElementById("idhogar-select").value;
+            iframe.src = "juntos.html?idhogar=" + idhogarSeleccionado;
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
